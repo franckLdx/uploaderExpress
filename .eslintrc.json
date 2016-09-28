@@ -1,0 +1,23 @@
+{
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "globals": {
+        "Promise": false
+    },
+    "rule": {
+        "strict": ["error", "safe"],
+        "no-unused-vars": ["error", {
+            "args": "all",
+            "argsIgnorePattern": "next"
+        }],
+        "no-var": "error",
+        "semi": ["error", "always"],
+        "no-extra-semi": ["error"]
+    }
+}
