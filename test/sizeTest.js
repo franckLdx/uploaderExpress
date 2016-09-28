@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const request = require('supertest');
 const express = require('express');
 
-const uploaderEx = require('../index');
+const uploaderExpress = require('../index');
 
 describe('Size tests', () => {
   let app;
@@ -49,7 +49,7 @@ describe('Size tests', () => {
     let middleware;
 
     before(() => {
-      middleware = uploaderEx.middleware();
+      middleware = uploaderExpress.middleware();
     });
 
     it('Request with content-length 0', (done) => {
@@ -77,7 +77,7 @@ describe('Size tests', () => {
     let middleware;
 
     before(() => {
-      middleware = uploaderEx.middleware({maxSize:50});
+      middleware = uploaderExpress.middleware({maxSize:50});
     });
 
     it('Request with empty content', (done) => {
