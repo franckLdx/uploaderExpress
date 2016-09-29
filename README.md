@@ -1,10 +1,13 @@
 # Work in progress, this is not ready yet
 
+---
+
 # uploaderExpress
 Write huge amount of data into a file.
 
 This aims to write a huge amount from an express request to a file. uploaderExpress uses streams and **never load the full amount of data into memory**.
 
+---
 # API
 ```javascript
 const uploaderExpress = require('../index');
@@ -29,4 +32,13 @@ app.use(function(err, req, res, next) {
             res.status(500).end('Something brokes!');
         }
     });
+```
+___
+
+#### Options
+A middleware is created like this:
+```javascript
+const uploaderMiddleware = uploaderExpress.middleware({
+  maxSize: 1000
+});
 ```
