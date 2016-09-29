@@ -234,4 +234,43 @@ describe('Internal file tests', () => {
 
     });
   });
+
+  describe('incSize (data size exceeds or not the milit) tests', () => {
+    it('Expected size is set, adding as data as expected size should work', (done) => {
+      const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
+      file.getInternalFile(params)
+        .then((intFile) => {
+          intFile.incSize(3);
+          intFile.incSize(7);
+          done();
+        })
+        .catch(done);
+    });
+    it('Expected size is not set, adding data should work', (done) => {
+      const params = { req:getRequest(undefined), maxSize:undefined, type:'json', filePath:'foo'};
+      file.getInternalFile(params)
+        .then((intFile) => {
+          intFile.incSize(3);
+          intFile.incSize(7);
+          intFile.incSize(1000);
+          done();
+        })
+        .catch(done);
+    });
+    it('Expected size is set, adding more data than expected size should failed', (done) => {
+      const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
+      file.getInternalFile(params)
+        .then((intFile) => {
+          intFile.incSize(3);
+          intFile.incSize(7);
+          try {
+            intFile.incSize(10);
+            done('Exception has not been thrown');
+          } catch (err) {
+            done();
+          }
+        })
+        .catch(done);
+    });
+  });
 });
