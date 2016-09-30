@@ -30,7 +30,7 @@ describe('Internal file tests', () => {
               }
               expect(intFile.fullPath).to.be.deep.equal(path.resolve(params.filePath, intFile._fileName));
               expect(intFile._expectedSize).to.be.deep.equal(params.req.get('content-length'));
-              expect(intFile._actualSize).to.be.deep.equal(0);
+              expect(intFile._currentSize).to.be.deep.equal(0);
               done();
             })
             .catch(done);
@@ -235,13 +235,13 @@ describe('Internal file tests', () => {
     });
   });
 
-  describe('incSize (data size exceeds or not the milit) tests', () => {
+  describe('incCurrentSize (data size exceeds or not the milit) tests', () => {
     it('Expected size is set, adding as data as expected size should work', (done) => {
       const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
       file.getInternalFile(params)
         .then((intFile) => {
-          intFile.incSize(3);
-          intFile.incSize(7);
+          intFile.incCurrentSize(3);
+          intFile.incCurrentSize(7);
           done();
         })
         .catch(done);
@@ -250,9 +250,9 @@ describe('Internal file tests', () => {
       const params = { req:getRequest(undefined), maxSize:undefined, type:'json', filePath:'foo'};
       file.getInternalFile(params)
         .then((intFile) => {
-          intFile.incSize(3);
-          intFile.incSize(7);
-          intFile.incSize(1000);
+          intFile.incCurrentSize(3);
+          intFile.incCurrentSize(7);
+          intFile.incCurrentSize(1000);
           done();
         })
         .catch(done);
@@ -261,10 +261,10 @@ describe('Internal file tests', () => {
       const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
       file.getInternalFile(params)
         .then((intFile) => {
-          intFile.incSize(3);
-          intFile.incSize(7);
+          intFile.incCurrentSize(3);
+          intFile.incCurrentSize(7);
           try {
-            intFile.incSize(10);
+            intFile.incCurrentSize(10);
             done('Exception has not been thrown');
           } catch (err) {
             done();
