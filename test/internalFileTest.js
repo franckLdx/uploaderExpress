@@ -8,54 +8,77 @@ const expect = require('chai').expect;
 
 const file = require('../lib/file');
 
-describe('Internal file tests', () => {
-    function getRequest(contentLength) {
-      return {
-        get() {
-          return contentLength;
-        }
-      }
+function getRequest(contentLength) {
+  return {
+    get() {
+      return contentLength;
     }
+  }
+}
+
+describe('Internal file tests', () => {
 
   describe('Initialization tests', () => {
-      describe('Basic initialisation test', () => {
-        function testValidInit(params, done) {
-          file.getInternalFile(params)
-            .then((intFile) => {
-              expect(intFile._filePath).to.be.deep.equal(params.filePath);
-              if (params.type) {
-                expect(intFile._fileName.endsWith(`.${params.type}`)).to.be.true;
-              } else {
-                expect(intFile._fileName).not.to.be.undefined;
-              }
-              expect(intFile.fullPath).to.be.deep.equal(path.resolve(params.filePath, intFile._fileName));
-              expect(intFile._expectedSize).to.be.deep.equal(params.req.get('content-length'));
-              expect(intFile._currentSize).to.be.deep.equal(0);
-              done();
-            })
-            .catch(done);
-        }
+    describe('Basic initialisation test', () => {
+      function testValidInit(params, done) {
+        file.getInternalFile(params)
+          .then((intFile) => {
+            expect(intFile._filePath).to.be.deep.equal(params.filePath);
+            if (params.type) {
+              expect(intFile._fileName.endsWith(`.${params.type}`)).to.be.true;
+            } else {
+              expect(intFile._fileName).not.to.be.undefined;
+            }
+            expect(intFile.fullPath).to.be.deep.equal(path.resolve(params.filePath, intFile._fileName));
+            expect(intFile._expectedSize).to.be.deep.equal(params.req.get('content-length'));
+            expect(intFile._currentSize).to.be.deep.equal(0);
+            done();
+          })
+          .catch(done);
+      }
 
-        it('All parameters are defined', (done) => {
-          const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
-          testValidInit(params,done);
-        });
-
-        it('file type is not set', (done) => {
-          const params = { req:getRequest(10), maxSize:50, filePath:'foo'};
-          testValidInit(params,done);
-        });
-
-        it('MaxSize is not set', (done) => {
-          const params = { req:getRequest(10), type:'json', filePath:'foo'};
-          testValidInit(params,done);
-        });
+      it('All parameters are defined', (done) => {
+        const params = {
+          req: getRequest(10),
+          maxSize: 50,
+          type: 'json',
+          filePath: 'foo'
+        };
+        testValidInit(params, done);
       });
-    })
+
+      it('file type is not set', (done) => {
+        const params = {
+          req: getRequest(10),
+          maxSize: 50,
+          filePath: 'foo'
+        };
+        testValidInit(params, done);
+      });
+
+      it('MaxSize is not set', (done) => {
+        const params = {
+          req: getRequest(10),
+          type: 'json',
+          filePath: 'foo'
+        };
+        testValidInit(params, done);
+      });
+    });
+  });
 
   describe('Size management test', () => {
+    function getParams({contentLength, maxSize}) {
+      return {
+        req: getRequest(contentLength),
+        maxSize,
+        type: 'json',
+        filePath: 'foo'
+      };
+    }
+
     function testValidSize({contentLength, maxSize, exptectedSize}, done) {
-      const params = { req:getRequest(contentLength), maxSize, type:'json', filePath:'foo'};
+      const params = getParams({contentLength, maxSize});
       file.getInternalFile(params)
         .then((intFile) => {
           expect(intFile._expectedSize).to.be.deep.equal(exptectedSize);
@@ -64,36 +87,62 @@ describe('Internal file tests', () => {
         .catch(done);
     }
 
+    function testUnvalidSize({contentLength, maxSize, exptectedSize}, done) {
+      const params = getParams({contentLength, maxSize})
+      file.getInternalFile(params)
+        .then(() => { done('Should got an error'); })
+        .catch((err) => { done(); });
+    }
+
     it('Both req content-length and MaxSize are defined, expected size should be content-length', (done) => {
-        const contentLength = 10, maxSize = 50;
-        testValidSize({contentLength, maxSize, exptectedSize:contentLength}, done);
+      const
+        contentLength = 10,
+        maxSize = 50;
+      testValidSize({contentLength, maxSize, exptectedSize: contentLength}, done);
     });
 
     it('Req content-length is not defined, MaxSize is defined, expected size should be MaxSize', (done) => {
-      const contentLength = undefined, maxSize = 50;
-      testValidSize({contentLength, maxSize, exptectedSize:maxSize}, done);
+      const
+        contentLength = undefined,
+        maxSize = 50;
+      testValidSize({contentLength, maxSize, exptectedSize: maxSize}, done);
     });
 
     it('Req content-length is defined, MaxSize is not defined, expected size should be content-length', (done) => {
-        const contentLength = 10, maxSize = undefined;
-        testValidSize({contentLength, maxSize, exptectedSize:contentLength}, done);
+      const
+        contentLength = 10,
+        maxSize = undefined;
+      testValidSize({contentLength, maxSize, exptectedSize: contentLength}, done);
     });
 
-    it('Neither Req content-length nor MaxSize are defined, expected size should be SIZE_NOT_DEFINED', (done) => {
-        const contentLength = undefined, maxSize = undefined;
-        testValidSize({contentLength, maxSize, exptectedSize:undefined}, done);
+    it('Neither Req content-length nor MaxSize are defined, expected size should be undefined', (done) => {
+      const
+        contentLength = undefined,
+        maxSize = undefined;
+      testValidSize({contentLength, maxSize, exptectedSize: undefined}, done);
     });
 
     it('Both req content-length and MaxSize are defined, content-length is bigger than MaxSize: an expection should be thrown', (done) => {
-        const params = { req:getRequest(50), maxSize:10, type:'json', filePath:'foo'};
-        file.getInternalFile(params)
-          .then(() => {done('An error should have been thrown');})
-          .catch(() => done());
+      const params = { req: getRequest(50), maxSize: 10, type: 'json', filePath: 'foo'};
+      file.getInternalFile(params)
+        .then(() => {
+          done('An error should have been thrown');
+        })
+        .catch(() => done());
     });
 
     it('Both req content-length and MaxSize are defined and equals, expected size should be this value', (done) => {
-        const contentLength = 10, maxSize = 10;
-        testValidSize({contentLength, maxSize, exptectedSize:contentLength}, done);
+      const
+        contentLength = 10,
+        maxSize = 10;
+      testValidSize({contentLength, maxSize, exptectedSize: contentLength}, done);
+    });
+
+    it('Req has a content-length equals to 0, exception should be thrown', (done) => {
+      const
+        contentLength = 0,
+        maxSize = 10;
+      testUnvalidSize({contentLength, maxSize, exptectedSize: contentLength}, done);
     });
   });
 
@@ -101,19 +150,19 @@ describe('Internal file tests', () => {
     let intFile;
 
     beforeEach((done) => {
-      file.getInternalFile({req:getRequest(10), maxSize:50, filePath:os.tmpdir(), type:'nodeTest'})
-      .then((_intFile) => {
-        intFile = _intFile;
-        done();
-      })
-      .catch(done);
+      file.getInternalFile({req: getRequest(10), maxSize: 50, filePath: os.tmpdir(), type: 'nodeTest'})
+        .then((_intFile) => {
+          intFile = _intFile;
+          done();
+        })
+        .catch(done);
     });
 
     function createFile(file) {
       if (isFileExist(file)) {
         throw new Error('File ${file} already exist');
       }
-      const fd = fs.openSync(file, fs.constants.O_WRONLY | fs.constants.O_CREAT |  fs.constants.O_EXCL);
+      const fd = fs.openSync(file, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL);
       fs.closeSync(fd);
     }
 
@@ -139,19 +188,6 @@ describe('Internal file tests', () => {
       deleteFile(intFile.fullPath);
     });
 
-    it('CreateStream test: a file should exist at the expected location', (done) => {
-      const stream = intFile.createWriteStream();
-      stream.end();
-      stream.on('close', () => {
-        if (isFileExist(intFile.fullPath)) {
-          done();
-        } else {
-          done('File has not been created !')
-        }
-      });
-      stream.on('error', done);
-    });
-
     describe('MoveAsync tests', () => {
       beforeEach(() => {
         createFile(intFile.fullPath);
@@ -164,7 +200,7 @@ describe('Internal file tests', () => {
             if (!isFileExist(intFile.fullPath)) {
               throw new Error('File has not been moved');
             }
-            expect(intFile.fullPath).to.be.deep.equal(path.resolve(destDir,intFile._fileName));
+            expect(intFile.fullPath).to.be.deep.equal(path.resolve(destDir, intFile._fileName));
             done();
           })
           .catch(done);
@@ -212,19 +248,20 @@ describe('Internal file tests', () => {
         }
         intFile.deleteAsync()
           .then(() => {
-              if (isFileExist(intFile.fullPath)) {
-                throw new Error('File still exist !!!');
-              }
-              done();
+            if (isFileExist(intFile.fullPath)) {
+              throw new Error('File still exist !!!');
             }
-          ).catch(done);
+            done();
+          }).catch(done);
       });
 
       it('Delete a non existing file, shoud failed', (done) => {
         const fullPath = intFile.fullPath;
         deleteFile(fullPath);
         intFile.deleteAsync()
-          .then(() => {done('An error shoud be thrown');})
+          .then(() => {
+            done('An error shoud be thrown');
+          })
           .catch(() => {
             expect(intFile.fullPath).to.be.deep.equal(fullPath);
             done();
@@ -237,7 +274,12 @@ describe('Internal file tests', () => {
 
   describe('incCurrentSize (data size exceeds or not the milit) tests', () => {
     it('Expected size is set, adding as data as expected size should work', (done) => {
-      const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
+      const params = {
+        req: getRequest(10),
+        maxSize: 50,
+        type: 'json',
+        filePath: 'foo'
+      };
       file.getInternalFile(params)
         .then((intFile) => {
           intFile.incCurrentSize(3);
@@ -247,7 +289,12 @@ describe('Internal file tests', () => {
         .catch(done);
     });
     it('Expected size is not set, adding data should work', (done) => {
-      const params = { req:getRequest(undefined), maxSize:undefined, type:'json', filePath:'foo'};
+      const params = {
+        req: getRequest(undefined),
+        maxSize: undefined,
+        type: 'json',
+        filePath: 'foo'
+      };
       file.getInternalFile(params)
         .then((intFile) => {
           intFile.incCurrentSize(3);
@@ -258,7 +305,12 @@ describe('Internal file tests', () => {
         .catch(done);
     });
     it('Expected size is set, adding more data than expected size should failed', (done) => {
-      const params = { req:getRequest(10), maxSize:50, type:'json', filePath:'foo'};
+      const params = {
+        req: getRequest(10),
+        maxSize: 50,
+        type: 'json',
+        filePath: 'foo'
+      };
       file.getInternalFile(params)
         .then((intFile) => {
           intFile.incCurrentSize(3);

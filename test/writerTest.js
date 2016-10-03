@@ -1,8 +1,11 @@
 'use strict';
 
+const co = require('co');
 const {Readable, Writable} = require('stream');
 
 const expect = require('chai').expect;
+const sinon = require('sinon');
+const fsp = require('fs-promise');
 
 const writer = require('../lib/writer');
 
@@ -99,5 +102,110 @@ describe('streamToStream test', () => {
       () => done()
     );
   });
-
 });
+
+describe('reqToFile test', () => {
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    function stubFsp(writeStream) {
+      sandbox.stub(fsp, 'open').returns(Promise.resolve(1));
+      sandbox.stub(fsp, 'createWriteStream').returns(writeStream);
+    }
+
+    function getStreams() {
+      const writeStream = new class extends Writable {
+        constructor() {
+          super();
+          this.buf= [];
+        }
+        _write(chunck, encoding, cb) {
+          this.buf.push(chunck.toString());
+          cb();
+        }
+      };
+      const readStream = new class extends Readable {
+        constructor() {
+          super();
+          this.buf= ['a','b','c','d'];
+          this.ind=0;
+        }
+        _read() {
+          if (this.ind>this.buf.length) {
+            this.push(null);
+          } else {
+            this.push(this.buf[this.ind]);
+            this.ind++;
+          }
+        }
+      };
+      return { readStream, writeStream };
+    }
+
+    it('No error, whole data should be copied', (done) => {
+      co(function *() {
+        try {
+          const {readStream, writeStream} = getStreams();
+          stubFsp(writeStream);
+          const intFile = {
+            fullPath() { return ''; },
+            incCurrentSize() {}
+          };
+          yield writer.reqToFile(readStream, intFile);
+          expect(writeStream.buf).to.be.deep.equal(readStream.buf);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('An error is thrown, should stop the copy', (done) => {
+      co(function *() {
+        try {
+          const {readStream, writeStream} = getStreams();
+          stubFsp(writeStream);
+          const intFile = {
+            incCurrentSize(size) {
+              this.count = size + this.count || size;
+              if (this.count===3) {
+                throw new Error('No no');
+              }
+            }
+          };
+          try {
+            yield writer.reqToFile(readStream, intFile);
+          } catch (err) {
+            if (writeStream.buf.length!==2) {
+              throw `Writestream received too much data: ${writeStream.buf.length}`;
+            } else {
+              throw err;
+            }
+          }
+          throw 'An error should be thrown';
+        } catch (err) {
+          expect(err.message).to.be.deep.equal('No no');
+        }
+      }).then(done, done);
+    });
+
+    it('An error is thrown, should stop the copy', (done) => {
+      co(function *() {
+        try {
+          sandbox.stub(fsp, 'open').returns(Promise.resolve(1));
+          sandbox.stub(fsp, 'createWriteStream').throws(new Error('unexpected failure'));
+          yield writer.reqToFile(undefined, {});
+          throw 'An error should be thrown';
+        } catch (err) {
+          expect(err.message).to.be.deep.equal('unexpected failure');
+        }
+      }).then(done, done);
+    });
+  });
