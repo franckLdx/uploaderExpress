@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "\u0016Write huge amount of data into a file\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dincomming data into a file",
   "main": "index.js",
+  "file": [
+    "index.js",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "grunt test"
   },
