@@ -18,7 +18,7 @@ In case of error the temporary file is deleted and nothing is copied in the uplo
 const uploaderExpress = require('uploaderExpress');
 const uploaderMiddleware = uploaderExpress.middleware(options); // options are explained below
 
-app.post('/', middleware, (req, res, next) => {
+app.post('/', valdRequest, uploaderMiddleware, (req, res, next) => {
   /* if uploader is successfull, req.x_file contains information about the file that stores the uploaded data, it is detailed below.*/
 });
 
@@ -38,6 +38,7 @@ app.use(function(err, req, res, next) {
   }
 });
 ```
+
 ---
 ## API
 
@@ -90,8 +91,8 @@ router.post('/customUpload/', uploaderMiddleware, (req, res, next) => {
   * **name**: the file name
   * **size**: the uploaded bytes.
 
-  ___
-  #### 3. Middleware usage: Error
+___
+#### 3. Middleware usage: Error
 
   In case of error, uploaderExpress generates an error with a status and a name:
   ```javascript
