@@ -60,22 +60,21 @@ describe('MyTransformer  test', () => {
 });
 
 describe('streamToStream test', () => {
-  it('Whole data are copied', (done) => {
+  it('Whole data are copied', () => {
     const observer = () => {};
     const {readableStream, writableStream, observerStream} = getStreams(observer);
-    writer.streamToStream(readableStream, writableStream, observerStream).then(done, done);
+    return writer.streamToStream(readableStream, writableStream, observerStream);
   });
 
-  it('obverver generates an error, should stop the copy', (done) => {
+  it('obverver generates an error, should stop the copy', () => {
     const observer = () => { throw new Error('I say noooo, noooo, no')};
     const {readableStream, writableStream, observerStream} = getStreams(observer);
-    writer.streamToStream(readableStream, writableStream, observerStream).then(
-      () => done('Promise should be on error'),
-      () => done()
-    );
+    return writer.streamToStream(readableStream, writableStream, observerStream)
+      .then(() => Promise.reject('Promise should be on error'))
+      .catch(() => Promise.resolve())
   });
 
-  it('readStream error: should stop the copy', (done) => {
+  it('readStream error: should stop the copy', () => {
     const observer = () => {};
     const {writableStream, observerStream} = getStreams(observer);
     const readableStream = new Readable({
@@ -83,13 +82,12 @@ describe('streamToStream test', () => {
         this.emit('error', 'aborted');
       }
     });
-    writer.streamToStream(readableStream, writableStream, observerStream).then(
-      () => done('Promise should be on error'),
-      () => done()
-    );
+    return writer.streamToStream(readableStream, writableStream, observerStream)
+      .then(() => Promise.reject('Promise should be on error'))
+      .catch(() => Promise.resolve())
   });
 
-  it('writeStream error: should stop the copy', (done) => {
+  it('writeStream error: should stop the copy', () => {
     const observer = () => {};
     const {readableStream, observerStream} = getStreams(observer);
     const writableStream = new Writable({
@@ -97,10 +95,9 @@ describe('streamToStream test', () => {
         callback('aborted');
       }
     });
-    writer.streamToStream(readableStream, writableStream, observerStream).then(
-      () => done('Promise should be on error'),
-      () => done()
-    );
+    return writer.streamToStream(readableStream, writableStream, observerStream)
+      .then(() => Promise.reject('Promise should be on error'))
+      .catch(() => Promise.resolve())
   });
 });
 
@@ -149,26 +146,21 @@ describe('reqToFile test', () => {
       return { readStream, writeStream };
     }
 
-    it('No error, whole data should be copied', (done) => {
-      co(function *() {
-        try {
-          const {readStream, writeStream} = getStreams();
-          stubFsp(writeStream);
-          const intFile = {
-            fullPath() { return ''; },
-            incCurrentSize() {}
-          };
-          yield writer.reqToFile(readStream, intFile);
-          expect(writeStream.buf).to.be.deep.equal(readStream.buf);
-          done();
-        } catch (err) {
-          done(err);
-        }
+    it('No error, whole data should be copied', () => {
+      return co(function *() {
+        const {readStream, writeStream} = getStreams();
+        stubFsp(writeStream);
+        const intFile = {
+          fullPath() { return ''; },
+          incCurrentSize() {}
+        };
+        yield writer.reqToFile(readStream, intFile);
+        expect(writeStream.buf).to.be.deep.equal(readStream.buf);
       });
     });
 
-    it('An error is thrown, should stop the copy', (done) => {
-      co(function *() {
+    it('An error is thrown, should stop the copy', () => {
+      return co(function *() {
         try {
           const {readStream, writeStream} = getStreams();
           stubFsp(writeStream);
@@ -193,11 +185,11 @@ describe('reqToFile test', () => {
         } catch (err) {
           expect(err.message).to.be.deep.equal('No no');
         }
-      }).then(done, done);
+      });
     });
 
-    it('An error is thrown, should stop the copy', (done) => {
-      co(function *() {
+    it('An error is thrown, should stop the copy', () => {
+      return co(function *() {
         try {
           sandbox.stub(fsp, 'open').returns(Promise.resolve(1));
           sandbox.stub(fsp, 'createWriteStream').throws(new Error('unexpected failure'));
@@ -206,6 +198,6 @@ describe('reqToFile test', () => {
         } catch (err) {
           expect(err.message).to.be.deep.equal('unexpected failure');
         }
-      }).then(done, done);
+      })
     });
   });

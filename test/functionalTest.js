@@ -26,7 +26,7 @@ describe('Functional test', () => {
     });
   }
 
-  function testValidRequest({middleware, content, done}) {
+  function testValidRequest({middleware, content}) {
     const app = express();
     app.post(URL, middleware, (req, res) => {
       try {
@@ -38,13 +38,11 @@ describe('Functional test', () => {
     });
     setErrorHandler(app);
     const agent = request.agent(app);
-    agent.post(URL).send(content)
-      .expect(200)
-      .then(() => { done();})
-      .catch(done);
+    return agent.post(URL).send(content)
+      .expect(200);
   }
 
-  function testUnvalidRequest({expectedStatus=400, middleware, content, contentLength, done}) {
+  function testUnvalidRequest({expectedStatus=400, middleware, content, contentLength}) {
     const app = express();
     app.post(URL, middleware, (req, res) => {
         res.end();
@@ -55,40 +53,38 @@ describe('Functional test', () => {
     if (contentLength!==undefined) {
       agent.set('Content-Length', contentLength)
     }
-    agent.send(content)//.expect(expectedStatus)
-      .then(() => { done();} )
-      .catch(done);
+    return agent.send(content).expect(expectedStatus);
   }
 
-  it('Request with no content', (done) => {
+  it('Request with no content', () => {
     const middleware = uploaderExpress.middleware({tmpDir, uploadDir});
-    testUnvalidRequest({middleware, done});
+    return testUnvalidRequest({middleware});
   });
 
-  it('Request with a content and no maxSize', (done) => {
+  it('Request with a content and no maxSize', () => {
     const middleware = uploaderExpress.middleware({tmpDir, uploadDir});
-    testValidRequest({middleware, content:'aaa', done});
+    return testValidRequest({middleware, content:'aaa'});
   });
 
-  it('Request with a content lower than maxSize', (done) => {
+  it('Request with a content lower than maxSize', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length+10, tmpDir, uploadDir});
-    testValidRequest({middleware, content, done});
+    return testValidRequest({middleware, content});
   });
 
-  it('Request with a content equals to maxSize', (done) => {
+  it('Request with a content equals to maxSize', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length, tmpDir, uploadDir});
-    testValidRequest({middleware, content, done});
+    return testValidRequest({middleware, content});
   });
 
-  it('Request with a content bigger than maxSize', (done) => {
+  it('Request with a content bigger than maxSize', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length-2, tmpDir, uploadDir});
-    testUnvalidRequest({expectedStatus:413, middleware, content, done});
+    return testUnvalidRequest({expectedStatus:413, middleware, content});
   });
 
-  it('Request with a content lower than it\'s contentLength', function(done) {
+  it('Request with a content lower than it\'s contentLength', function() {
     this.timeout(1000*60*3);
     const content = 'aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length*10, tmpDir, uploadDir});
@@ -100,15 +96,12 @@ describe('Functional test', () => {
     let agent = request.agent(app);
     agent = agent.post(URL);
     agent.set('Content-Length', content.length+5);
-    agent.send(content)
-      .then(() => { done('Should get an error');})
-      .catch((err) => {
-        expect(err.message).to.be.deep.equal('socket hang up');
-        done();
-      }).catch(done);
+    return agent.send(content)
+      .then(() => Promise.reject('Should get an error'))
+      .catch((err) =>  expect(err.message).to.be.deep.equal('socket hang up'));
   });
 
-  it('Request with a content lower than it`s contentLength', (done) => {
+  it('Request with a content lower than it`s contentLength', () => {
     const content = 'aaa';
     const middleware = uploaderExpress.middleware({tmpDir, uploadDir});
     const app = express();
@@ -119,11 +112,8 @@ describe('Functional test', () => {
     let agent = request.agent(app);
     agent = agent.post(URL);
     agent.set('Content-Length', content.length-1);
-    agent.send(content)
-      .then(() => { done('Should get an error');})
-      .catch((err) => {
-        expect(err.message).to.be.deep.equal('socket hang up');
-        done();
-      }).catch(done);
+    return agent.send(content)
+      .then(() => Promise.reject('Should get an error'))
+      .catch((err) => expect(err.message).to.be.deep.equal('socket hang up'));
   });
 });
