@@ -18,6 +18,10 @@
         }],
         "no-var": "error",
         "semi": ["error", "always"],
-        "no-extra-semi": ["error"]
+        "valid-typeof": "error",
+        "no-extra-semi": "error",
+        "no-eq-null": "error",
+        "no-eval": "error",
+        "no-extra-bind": "error"
     }
 }

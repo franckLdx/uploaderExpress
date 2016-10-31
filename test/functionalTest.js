@@ -15,8 +15,8 @@ const uploadDir = path.join(rootDir, 'upload');
 
 describe('Functional test', () => {
 
-  beforeEach((done) => {
-    fsp.remove(rootDir).then(done,done);
+  beforeEach(() => {
+    return fsp.remove(rootDir);
   });
 
   function setErrorHandler(app) {
@@ -66,21 +66,39 @@ describe('Functional test', () => {
     return testValidRequest({middleware, content:'aaa'});
   });
 
-  it('Request with a content lower than maxSize', () => {
+  it('Request with a content lower than maxSize (maxSIze is an int)', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length+10, tmpDir, uploadDir});
     return testValidRequest({middleware, content});
   });
 
-  it('Request with a content equals to maxSize', () => {
+  it('Request with a content lower than maxSize (maxSIze is a string)', () => {
+    const content='aaa';
+    const middleware = uploaderExpress.middleware({maxSize:'1024kb', tmpDir, uploadDir});
+    return testValidRequest({middleware, content});
+  });
+
+  it('Request with a content equals to maxSize (maxSize is an integer)', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length, tmpDir, uploadDir});
     return testValidRequest({middleware, content});
   });
 
-  it('Request with a content bigger than maxSize', () => {
+  it('Request with a content equals to maxSize (maxSize is a string)', () => {
+    const content='aaa';
+    const middleware = uploaderExpress.middleware({maxSize:`${content.length}`, tmpDir, uploadDir});
+    return testValidRequest({middleware, content});
+  });
+
+  it('Request with a content bigger than maxSize (maxSize is an integer)', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length-2, tmpDir, uploadDir});
+    return testUnvalidRequest({expectedStatus:413, middleware, content});
+  });
+
+  it('Request with a content bigger than maxSize (maxSize is a string)', () => {
+    const content='aaa';
+    const middleware = uploaderExpress.middleware({maxSize:`${content.length-2}`, tmpDir, uploadDir});
     return testUnvalidRequest({expectedStatus:413, middleware, content});
   });
 

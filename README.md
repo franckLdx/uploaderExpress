@@ -13,7 +13,8 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
-1.0.1 comes with some new dependencies. It also includes some tests refactoring.
+* **1.1.0** maxSize can still be defined using an integer, but now it can also defined using a string like '1gb' (thanks to [bytes](https://www.npmjs.com/package/bytes)).
+* **1.0.1** comes with some new dependencies. It also includes some tests refactoring.
 
 
 #### Example
@@ -53,7 +54,7 @@ A middleware is created like this:
 const uploaderExpress = require('uploaderExpress');
 
 const uploaderMiddleware = uploaderExpress.middleware({
-  maxSize: 10000000,
+  maxSize: '1tb',
   uploadDir: './upload',
   tmpDir: './upload/tmp',
   type: 'json'
@@ -68,7 +69,11 @@ Available options:
 
   Optional. Default: [os.tmpdir()](https://nodejs.org/api/os.html#os_os_tmpdir)
 
-* **maxSize**: Maximumn numbers of bytes that the uploader will accept. Any attempt to upload more bytes will be rejected.
+* **maxSize**: Maximumn size that the uploader will accept. Any attempt to upload more bytes is rejected.
+Can be an integer or string:
+  * an integer is for a size in bytes. maxSize:1024 allow files of 1 kb
+  * a string is interpreted by [bytes librarie](https://www.npmjs.com/package/bytes). maxSize:'1kb' is the same than maxSize:1024
+
 
   Optional. If not defined uploaderExpress accepts requests of any size.
 
@@ -85,7 +90,7 @@ When the upload is successfull, Express req contains a x_file object:
 
 ```javascript
 router.post('/customUpload/', uploaderMiddleware, (req, res, next) => {
-  res.status(202).json({
+  res.status(200).json({
     file:req.x_file.name,
     size:req.x_file.size
   });
