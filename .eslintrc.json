@@ -1,27 +1,15 @@
 {
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 6
-    },
-    "env": {
-        "node": true,
-        "mocha": true
-    },
-    "globals": {
-        "Promise": false
-    },
-    "rule": {
-        "strict": ["error", "safe"],
-        "no-unused-vars": ["error", {
-            "args": "all",
-            "argsIgnorePattern": "next"
-        }],
-        "no-var": "error",
-        "semi": ["error", "always"],
-        "valid-typeof": "error",
-        "no-extra-semi": "error",
-        "no-eq-null": "error",
-        "no-eval": "error",
-        "no-extra-bind": "error"
-    }
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "strict": "off",
+    "no-bitwise": ["error", { "allow": ["|"] }],
+    "no-underscore-dangle": "off"
+  }
 }

@@ -66,13 +66,13 @@ describe('Functional test', () => {
     return testValidRequest({middleware, content:'aaa'});
   });
 
-  it('Request with a content lower than maxSize (maxSIze is an int)', () => {
+  it('Request with a content lower than maxSize (maxSize is an int)', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:content.length+10, tmpDir, uploadDir});
     return testValidRequest({middleware, content});
   });
 
-  it('Request with a content lower than maxSize (maxSIze is a string)', () => {
+  it('Request with a content lower than maxSize (maxSize is a string)', () => {
     const content='aaa';
     const middleware = uploaderExpress.middleware({maxSize:'1024kb', tmpDir, uploadDir});
     return testValidRequest({middleware, content});
