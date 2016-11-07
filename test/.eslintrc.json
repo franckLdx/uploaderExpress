@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "func-names": ["error", "never"],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**/*.js"]}],
+    "no-bitwise": ["error", { "allow": ["|"] }],
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "padded-blocks": "off",
+    "prefer-arrow-callback": "off",
+    "strict": "off"
+  }
+}
