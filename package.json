@@ -10,7 +10,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "grunt test"
+    "test": "./node_modules/.bin/grunt test",
+    "lint": "./node_modules/.bin/eslint *.js src/**/*.js test/**/*.js example/**/*.js"
   },
   "repository": {
     "type": "git",

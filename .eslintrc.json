@@ -8,8 +8,8 @@
     "mocha": true
   },
   "rules": {
-    "strict": "off",
     "no-bitwise": ["error", { "allow": ["|"] }],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "strict": "off"
   }
 }
