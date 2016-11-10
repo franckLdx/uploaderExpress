@@ -1,26 +1,29 @@
 'use strict';
 
-module.exports = function(grunt) {
+/* eslint func-names: off */
+/* eslint padded-blocks: off */
 
-    grunt.initConfig({});
+module.exports = function (grunt) {
 
-    grunt.config('clean', {
-      coverage: {
-        src: 'coverage'
-      }
-    });
+  grunt.initConfig({});
 
-    grunt.config('mocha_istanbul', {
-			coverage: {
-				src: 'test',
-				options: {
-					mask: '*Test.js',
-          reportFormats: ['html']
-				}
-			}
-		});
+  grunt.config('clean', {
+    coverage: {
+      src: 'coverage',
+    },
+  });
 
-    grunt.loadNpmTasks('grunt-contrib-clean');
-		grunt.loadNpmTasks('grunt-mocha-istanbul');
-		grunt.registerTask('test', ['clean:coverage','mocha_istanbul']);
+  grunt.config('mocha_istanbul', {
+    coverage: {
+      src: 'test',
+      options: {
+        mask: '*Test.js',
+        reportFormats: ['html'],
+      },
+    },
+  });
+
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-mocha-istanbul');
+  grunt.registerTask('test', ['clean:coverage', 'mocha_istanbul']);
 };

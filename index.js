@@ -5,5 +5,5 @@ const middlewareFactory = require('./lib/middleware');
 
 module.exports = {
   uploader: uploaderFactory,
-  middleware: middlewareFactory
+  middleware: middlewareFactory,
 };

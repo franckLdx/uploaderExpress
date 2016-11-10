@@ -1,24 +1,32 @@
 'use strict';
 
 const express = require('express');
+const uploaderExpress = require('../index.js'); // require('uploaderExpress');
+
 const app = express();
 
-const uploaderExpress = require('../index.js'); //require('uploaderExpress');
 const uploaderMiddleware = uploaderExpress.middleware({
   maxSize: '1gb',
   uploadDir: './upload',
-  type: 'json'
+  type: 'json',
 });
 
 app.post('/upload', uploaderMiddleware, (req, res, next) => {
   res.status(200).json({
-    file:req.x_file.name,
-    size:req.x_file.size
+    file: req.x_file.name,
+    size: req.x_file.size,
   });
 });
 
-app.use(function(err, req, res, next) {
-  console.log(`Error while processing a request. Request: `, {originalUrl:req.originalUrl, headers: req.headers}, '\nError: ', err);
+app.use((err, req, res, next) => {
+  console.log(
+    'Error while processing a request. Request: ',
+    {
+      originalUrl: req.originalUrl,
+      headers: req.headers,
+    },
+    '\nError: ', err
+  );
   if (err.status) {
     res.status(err.status);
     if (err.message) {
@@ -31,6 +39,6 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.listen(8080, function () {
+app.listen(8080, () => {
   console.log('Example app listening on port 8080!');
 });
