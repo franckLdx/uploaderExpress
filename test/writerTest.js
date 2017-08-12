@@ -5,7 +5,7 @@ const { Readable, Writable } = require('stream');
 
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const fsp = require('fs-promise');
+const fsp = require('fs-extra');
 
 const writer = require('../lib/writer');
 

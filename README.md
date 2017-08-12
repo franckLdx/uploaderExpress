@@ -13,6 +13,7 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
+* **1.1.2** Add package-lock.json and update depedencies
 * **1.1.1** some code refactoring
 * **1.1.0** maxSize can still be defined using an integer, but now it can also defined using a string like '1gb' (thanks to [bytes](https://www.npmjs.com/package/bytes)).
 * **1.0.1** comes with some new dependencies. It also includes some tests refactoring.

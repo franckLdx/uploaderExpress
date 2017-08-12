@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const express = require('express');
-const fsp = require('fs-promise');
+const fsp = require('fs-extra');
 const request = require('supertest');
 const path = require('path');
 
