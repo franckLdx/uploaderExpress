@@ -4,6 +4,8 @@ Write huge amount of data into a file.
 
 This aims to write a huge amount from an express request to a file. uploaderExpress uses streams and **never load the full amount of data into memory**.
 
+**_2.x requires Node v8 or later. For older Node release, you can use 1.x versions_**
+
 #### Synopsys
 1. uploaderExpress check the content-length (if maxSize option is set, see bellow)
 2. Creation of a temporary file
@@ -13,7 +15,8 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
-* **1.1.2** Add package-lock.json and update depedencies
+* **2.0.0** co library is not use anymore. All asynchronous operation uses async:await.  
+* **1.1.2** Add package-lock.json and update dependencies
 * **1.1.1** some code refactoring
 * **1.1.0** maxSize can still be defined using an integer, but now it can also defined using a string like '1gb' (thanks to [bytes](https://www.npmjs.com/package/bytes)).
 * **1.0.1** comes with some new dependencies. It also includes some tests refactoring.

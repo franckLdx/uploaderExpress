@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const { Readable, Writable } = require('stream');
 
 const expect = require('chai').expect;
@@ -117,49 +116,43 @@ describe('reqToFile test', function () {
     sandbox.stub(fsp, 'createWriteStream').returns(writeStream);
   }
 
-  it('No error, whole data should be copied', function () {
-    return co(function* () {
-      const { readableStream, writableStream } = getStreams();
-      stubFsp(writableStream);
-      const intFile = {
-        fullPath() { return ''; },
-        incCurrentSize() {},
-      };
-      yield writer.reqToFile(readableStream, intFile);
-      expect(writableStream.buf).to.be.deep.equal(readableStream.buf);
-    });
+  it('No error, whole data should be copied', async function () {
+    const { readableStream, writableStream } = getStreams();
+    stubFsp(writableStream);
+    const intFile = {
+      fullPath() { return ''; },
+      incCurrentSize() {},
+    };
+    await writer.reqToFile(readableStream, intFile);
+    expect(writableStream.buf).to.be.deep.equal(readableStream.buf);
   });
 
-  it('An error is thrown, should stop the copy', function () {
-    return co(function* () {
-      const { readableStream, writableStream } = getStreams();
-      stubFsp(writableStream);
-      const intFile = {
-        incCurrentSize(size) {
-          this.count = size + this.count || size;
-          if (this.count === 3) {
-            throw new Error('No no');
-          }
-        },
-      };
-      try {
-        yield writer.reqToFile(readableStream, intFile);
-      } catch (err) {
-        expect(err.message).to.be.deep.equal('No no');
-      }
-    });
+  it('An error is thrown, should stop the copy', async function () {
+    const { readableStream, writableStream } = getStreams();
+    stubFsp(writableStream);
+    const intFile = {
+      incCurrentSize(size) {
+        this.count = size + this.count || size;
+        if (this.count === 3) {
+          throw new Error('No no');
+        }
+      },
+    };
+    try {
+      await writer.reqToFile(readableStream, intFile);
+    } catch (err) {
+      expect(err.message).to.be.deep.equal('No no');
+    }
   });
 
-  it('An error is thrown, should stop the copy', function () {
-    return co(function* () {
-      try {
-        sandbox.stub(fsp, 'open').returns(Promise.resolve(1));
-        sandbox.stub(fsp, 'createWriteStream').throws(new Error('unexpected failure'));
-        yield writer.reqToFile(undefined, {});
-        throw new Error('An error should be thrown');
-      } catch (err) {
-        expect(err.message).to.be.deep.equal('unexpected failure');
-      }
-    });
+  it('An error is thrown, should stop the copy', async function () {
+    try {
+      sandbox.stub(fsp, 'open').returns(Promise.resolve(1));
+      sandbox.stub(fsp, 'createWriteStream').throws(new Error('unexpected failure'));
+      await writer.reqToFile(undefined, {});
+      throw new Error('An error should be thrown');
+    } catch (err) {
+      expect(err.message).to.be.deep.equal('unexpected failure');
+    }
   });
 });

@@ -119,8 +119,9 @@ describe('Internal file tests', function () {
 
     it('Both req content-length and MaxSize are defined, content-length is bigger than MaxSize: an expection should be thrown', function () {
       const params = { req: getRequest(50), maxSize: 10, type: 'json', filePath: 'foo' };
-      file.getInternalFile(params)
-        .then(() => Promise.reject('An error should have been thrown'));
+      return file.getInternalFile(params)
+        .then(() => Promise.reject('An error should have been thrown'))
+        .catch(() => Promise.resolve());
     });
 
     it('Both req content-length and MaxSize are defined and equals, expected size should be this value', function () {
@@ -177,14 +178,14 @@ describe('Internal file tests', function () {
       deleteFile(intFile.fullPath);
     });
 
-    describe('MoveAsync tests', function () {
+    describe('move tests', function () {
       beforeEach(function () {
         createFile(intFile.fullPath);
       });
 
       it('Valid move: intFile data shoud be up to date', function () {
         const destDir = './test';
-        return intFile.moveAsync(destDir)
+        return intFile.move(destDir)
           .then(() => {
             if (!isFileExist(intFile.fullPath)) {
               throw new Error('File has not been moved');
@@ -195,7 +196,7 @@ describe('Internal file tests', function () {
 
       it('Move to an non existing directory: should failed, intFile data should be unchanged', function () {
         const fullPath = intFile.fullPath;
-        return intFile.moveAsync('Z:/test/foo')
+        return intFile.move('Z:/test/foo')
           .then(() => Promise.reject('An error shoud have been thrown'))
           .catch(() => {
             expect(intFile.fullPath).to.be.deep.equal(fullPath);
@@ -208,13 +209,13 @@ describe('Internal file tests', function () {
       it('Move a non existing file, should failed', function () {
         const fullPath = intFile.fullPath;
         deleteFile(fullPath);
-        return intFile.moveAsync('./test')
+        return intFile.move('./test')
           .then(() => Promise.reject('An error shoud have been thrown'))
           .catch(() => expect(intFile.fullPath).to.be.deep.equal(fullPath));
       });
     });
 
-    describe('DeleteAsync tests', function () {
+    describe('delete tests', function () {
       beforeEach(function () {
         createFile(intFile.fullPath);
       });
@@ -223,7 +224,7 @@ describe('Internal file tests', function () {
         if (!isFileExist(intFile.fullPath)) {
           throw new Error('NONONFile still exist !!!');
         }
-        return intFile.deleteAsync()
+        return intFile.delete()
           .then(() => {
             if (isFileExist(intFile.fullPath)) {
               throw new Error('File still exist !!!');
@@ -234,7 +235,7 @@ describe('Internal file tests', function () {
       it('Delete a non existing file, shoud failed', function () {
         const fullPath = intFile.fullPath;
         deleteFile(fullPath);
-        return intFile.deleteAsync()
+        return intFile.delete()
           .then(() => Promise.reject('An error shoud be thrown'))
           .catch(() => expect(intFile.fullPath).to.be.deep.equal(fullPath));
       });
