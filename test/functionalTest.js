@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const express = require('express');
 const fsp = require('fs-extra');
 const request = require('supertest');
@@ -14,9 +14,9 @@ const tmpDir = path.join(rootDir, 'tmp');
 const uploadDir = path.join(rootDir, 'upload');
 
 describe('Functional test', function () {
-  beforeEach(() =>
-     fsp.remove(rootDir)
-  );
+  beforeEach(async () => {
+    await fsp.remove(rootDir);
+  });
 
   function setErrorHandler(app) {
     app.use((err, req, res, next) => {

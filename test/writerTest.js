@@ -2,7 +2,7 @@
 
 const { Readable, Writable } = require('stream');
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const sinon = require('sinon');
 const fsp = require('fs-extra');
 

@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const file = require('../lib/file');
 
@@ -163,7 +163,7 @@ describe('Internal file tests', function () {
       }
       const fd = fs.openSync(
         aFile,
-        fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL
+        fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL,
       );
       fs.closeSync(fd);
     }
@@ -195,7 +195,7 @@ describe('Internal file tests', function () {
       });
 
       it('Move to an non existing directory: should failed, intFile data should be unchanged', function () {
-        const fullPath = intFile.fullPath;
+        const { fullPath } = intFile;
         return intFile.move('Z:/test/foo')
           .then(() => Promise.reject('An error shoud have been thrown'))
           .catch(() => {
@@ -207,7 +207,7 @@ describe('Internal file tests', function () {
       });
 
       it('Move a non existing file, should failed', function () {
-        const fullPath = intFile.fullPath;
+        const { fullPath } = intFile;
         deleteFile(fullPath);
         return intFile.move('./test')
           .then(() => Promise.reject('An error shoud have been thrown'))
@@ -233,7 +233,7 @@ describe('Internal file tests', function () {
       });
 
       it('Delete a non existing file, shoud failed', function () {
-        const fullPath = intFile.fullPath;
+        const { fullPath } = intFile;
         deleteFile(fullPath);
         return intFile.delete()
           .then(() => Promise.reject('An error shoud be thrown'))
