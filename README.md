@@ -15,7 +15,8 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
-* **2.0.0** co library is not use anymore. All asynchronous operation uses async:await.  
+* **2.0.1** update dependencies + some code refactoring.
+* **2.0.0** co library is not use anymore. All asynchronous operation uses async:await.
 * **1.1.2** Add package-lock.json and update dependencies
 * **1.1.1** some code refactoring
 * **1.1.0** maxSize can still be defined using an integer, but now it can also defined using a string like '1gb' (thanks to [bytes](https://www.npmjs.com/package/bytes)).
