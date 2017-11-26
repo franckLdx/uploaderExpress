@@ -35,21 +35,21 @@
     "mz": "^2.5.0"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
-    "eslint": "^4.4.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.12.0",
     "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-react": "^7.2.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-react": "^7.5.1",
     "expect": "^1.20.2",
     "express": "^4.14.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-mocha-istanbul": "^5.0.2",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^3.1.0",
-    "sinon": "^3.2.0",
+    "mocha": "^4.0.1",
+    "sinon": "^4.1.2",
     "supertest": "^3.0.0"
   },
   "engines": {
