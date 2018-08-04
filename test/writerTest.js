@@ -40,7 +40,7 @@ function getStreams(observer) {
 describe('MyTransformer  test', function () {
 
   it('Observer issues no error', (done) => {
-    const observer = () => {};
+    const observer = () => { };
     const { readableStream, writableStream, observerStream } = getStreams(observer);
     writableStream.on('finish', done);
     observerStream.on('error', done);
@@ -60,7 +60,7 @@ describe('MyTransformer  test', function () {
 
 describe('streamToStream test', function () {
   it('Whole data are copied', function () {
-    const observer = function () {};
+    const observer = function () { };
     const { readableStream, writableStream, observerStream } = getStreams(observer);
     return writer.streamToStream(readableStream, writableStream, observerStream);
   });
@@ -74,7 +74,7 @@ describe('streamToStream test', function () {
   });
 
   it('readStream error: should stop the copy', function () {
-    const observer = () => {};
+    const observer = () => { };
     const { writableStream, observerStream } = getStreams(observer);
     const readableStream = new Readable({
       read() {
@@ -87,7 +87,7 @@ describe('streamToStream test', function () {
   });
 
   it('writeStream error: should stop the copy', function () {
-    const observer = () => {};
+    const observer = () => { };
     const { readableStream, observerStream } = getStreams(observer);
     const writableStream = new Writable({
       write(chunk, encoding, callback) {
@@ -104,7 +104,7 @@ describe('reqToFile test', function () {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
@@ -121,7 +121,7 @@ describe('reqToFile test', function () {
     stubFsp(writableStream);
     const intFile = {
       fullPath() { return ''; },
-      incCurrentSize() {},
+      incCurrentSize() { },
     };
     await writer.reqToFile(readableStream, intFile);
     expect(writableStream.buf).to.be.deep.equal(readableStream.buf);

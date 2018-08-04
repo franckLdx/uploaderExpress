@@ -47,8 +47,7 @@ describe('Functional test', function () {
       res.end();
     });
     setErrorHandler(app);
-    let agent = request.agent(app);
-    agent = agent.post(URL);
+    const agent = request.agent(app).post(URL);
     if (contentLength !== undefined) {
       agent.set('Content-Length', contentLength);
     }
@@ -109,7 +108,8 @@ describe('Functional test', function () {
     return testUnvalidRequest({ expectedStatus: 413, middleware, content });
   });
 
-  it('Request with a content lower than it\'s contentLength', function () {
+  // Node itself hang up, no need tobe managed by this lib anymore
+  it.skip('Request with a content lower than it\'s contentLength', function () {
     this.timeout(1000 * 60 * 3);
     const content = 'aaa';
     const middleware = uploaderExpress.middleware({
@@ -130,7 +130,8 @@ describe('Functional test', function () {
       .catch(err => expect(err.message).to.be.deep.equal('socket hang up'));
   });
 
-  it('Request with a content lower than it`s contentLength', () => {
+  // Node itself hang up, no need tobe managed by this lib anymore
+  it.skip('Request with a content lower than it`s contentLength', () => {
     const content = 'aaa';
     const middleware = uploaderExpress.middleware({ tmpDir, uploadDir });
     const app = express();
