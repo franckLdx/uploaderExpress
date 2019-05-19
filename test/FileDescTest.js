@@ -6,17 +6,18 @@ const path = require('path');
 
 const { expect } = require('chai');
 
-const file = require('../lib/file');
+const file = require('../lib/fileDesc');
 
-function getRequest(contentLength) {
-  return {
-    get() {
-      return contentLength;
-    },
-  };
-}
 
 describe('File desc tests', function () {
+
+  function getRequest(contentLength) {
+    return {
+      get() {
+        return contentLength;
+      },
+    };
+  }
 
   describe('Initialization tests', function () {
 
@@ -137,7 +138,7 @@ describe('File desc tests', function () {
     });
   });
 
-  describe('File system operations tests', function () {
+  describe('Move tests', function () {
     let fileDesc;
 
     beforeEach(async () => {
@@ -182,87 +183,39 @@ describe('File desc tests', function () {
       deleteFile(fileDesc.fullPath);
     });
 
-    describe('move tests', function () {
-      beforeEach(function () {
-        createFile(fileDesc.fullPath);
-      });
-
-      it('Valid move: fileDesc data shoud be up to date', async () => {
-        const destDir = './test';
-        const newFileDesc = await file.move(destDir, fileDesc);
-        if (!isFileExist(newFileDesc.fullPath)) {
-          throw new Error('File has not been moved');
-        }
-        expect(newFileDesc.filePath).to.be.deep.equal(destDir);
-        expect(newFileDesc.fullPath).to.be.deep.equal(path.resolve(destDir, newFileDesc.fileName));
-      });
-
-      it('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
-        const { fullPath } = fileDesc;
-        return file.move('Z:/test/foo', fileDesc)
-          .then(() => Promise.reject('An error shoud have been thrown'))
-          .catch(() => {
-            expect(fileDesc.fullPath).to.be.deep.equal(fullPath);
-            if (!isFileExist(fileDesc.fullPath)) {
-              throw new Error('File has been moved !!!');
-            }
-          });
-      });
-
-      it('Move a non existing file, should failed', function () {
-        const { fullPath } = fileDesc;
-        deleteFile(fullPath);
-        return file.move('./test', fileDesc)
-          .then(() => Promise.reject('An error shoud have been thrown'))
-          .catch(() => expect(fileDesc.fullPath).to.be.deep.equal(fullPath));
-      });
-    });
-  });
-
-  describe.skip('incCurrentSize (data size exceeds or not the milit) tests', function () {
-    it('Expected size is set, adding as data as expected size should work', async () => {
-      const params = {
-        req: getRequest(10),
-        maxSize: 50,
-        type: 'json',
-        filePath: 'foo',
-      };
-      const fileDesc = await file.getFileDesc(params);
-      fileDesc.incCurrentSize(3);
-      fileDesc.incCurrentSize(7);
+    beforeEach(function () {
+      createFile(fileDesc.fullPath);
     });
 
-
-    it('Expected size is not set, adding data should work', async () => {
-      const params = {
-        req: getRequest(undefined),
-        maxSize: undefined,
-        type: 'json',
-        filePath: 'foo',
-      };
-      const fileDesc = await file.getFileDesc(params);
-      fileDesc.incCurrentSize(3);
-      fileDesc.incCurrentSize(7);
-      fileDesc.incCurrentSize(1000);
+    it('Valid move: fileDesc data shoud be up to date', async () => {
+      const destDir = './test';
+      const newFileDesc = await file.move(destDir, fileDesc);
+      if (!isFileExist(newFileDesc.fullPath)) {
+        throw new Error('File has not been moved');
+      }
+      expect(newFileDesc.filePath).to.be.deep.equal(destDir);
+      expect(newFileDesc.fullPath).to.be.deep.equal(path.resolve(destDir, newFileDesc.fileName));
     });
-    it('Expected size is set, adding more data than expected size should failed', function () {
-      const params = {
-        req: getRequest(10),
-        maxSize: 50,
-        type: 'json',
-        filePath: 'foo',
-      };
-      return file.getFileDesc(params)
-        .then((fileDesc) => {
-          fileDesc.incCurrentSize(3);
-          fileDesc.incCurrentSize(7);
-          try {
-            fileDesc.incCurrentSize(10);
-            return Promise.reject('Exception has not been thrown');
-          } catch (err) {
-            return Promise.resolve();
+
+    it('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
+      const { fullPath } = fileDesc;
+      return file.move('Z:/test/foo', fileDesc)
+        .then(() => Promise.reject('An error shoud have been thrown'))
+        .catch(() => {
+          expect(fileDesc.fullPath).to.be.deep.equal(fullPath);
+          if (!isFileExist(fileDesc.fullPath)) {
+            throw new Error('File has been moved !!!');
           }
         });
     });
+
+    it('Move a non existing file, should failed', function () {
+      const { fullPath } = fileDesc;
+      deleteFile(fullPath);
+      return file.move('./test', fileDesc)
+        .then(() => Promise.reject('An error shoud have been thrown'))
+        .catch(() => expect(fileDesc.fullPath).to.be.deep.equal(fullPath));
+    });
   });
+
 });
