@@ -13,7 +13,7 @@ const rootDir = './test/upload';
 const tmpDir = path.join(rootDir, 'tmp');
 const uploadDir = path.join(rootDir, 'upload');
 
-describe.skip('Functional test', function () {
+describe('Functional test', function () {
   beforeEach(async () => {
     await fsp.remove(rootDir);
   });
@@ -41,7 +41,9 @@ describe.skip('Functional test', function () {
       .expect(200);
   }
 
-  function testUnvalidRequest({ expectedStatus = 400, middleware, content, contentLength }) {
+  function testUnvalidRequest({
+    expectedStatus = 400, middleware, content, contentLength,
+  }) {
     const app = express();
     app.post(URL, middleware, (req, res) => {
       res.end();
@@ -108,42 +110,42 @@ describe.skip('Functional test', function () {
     return testUnvalidRequest({ expectedStatus: 413, middleware, content });
   });
 
-  // Node itself hang up, no need tobe managed by this lib anymore
-  it.skip('Request with a content lower than it\'s contentLength', function () {
-    this.timeout(1000 * 60 * 3);
-    const content = 'aaa';
-    const middleware = uploaderExpress.middleware({
-      maxSize: content.length * 10,
-      tmpDir,
-      uploadDir,
-    });
-    const app = express();
-    app.post(URL, middleware, (req, res) => {
-      res.end();
-    });
-    setErrorHandler(app);
-    let agent = request.agent(app);
-    agent = agent.post(URL);
-    agent.set('Content-Length', content.length + 5);
-    return agent.send(content)
-      .then(() => Promise.reject('Should get an error'))
-      .catch(err => expect(err.message).to.be.deep.equal('socket hang up'));
-  });
+  // Node itself hang up, no need to be managed by this lib anymore
+  // it.skip('Request with a content lower than it\'s contentLength', function () {
+  //   this.timeout(1000 * 60 * 3);
+  //   const content = 'aaa';
+  //   const middleware = uploaderExpress.middleware({
+  //     maxSize: content.length * 10,
+  //     tmpDir,
+  //     uploadDir,
+  //   });
+  //   const app = express();
+  //   app.post(URL, middleware, (req, res) => {
+  //     res.end();
+  //   });
+  //   setErrorHandler(app);
+  //   let agent = request.agent(app);
+  //   agent = agent.post(URL);
+  //   agent.set('Content-Length', content.length + 5);
+  //   return agent.send(content)
+  //     .then(() => Promise.reject('Should get an error'))
+  //     .catch(err => expect(err.message).to.be.deep.equal('socket hang up'));
+  // });
 
-  // Node itself hang up, no need tobe managed by this lib anymore
-  it.skip('Request with a content lower than it`s contentLength', () => {
-    const content = 'aaa';
-    const middleware = uploaderExpress.middleware({ tmpDir, uploadDir });
-    const app = express();
-    app.post(URL, middleware, (req, res) => {
-      res.end();
-    });
-    setErrorHandler(app);
-    let agent = request.agent(app);
-    agent = agent.post(URL);
-    agent.set('Content-Length', content.length - 1);
-    return agent.send(content)
-      .then(() => Promise.reject('Should get an error'))
-      .catch(err => expect(err.message).to.be.deep.equal('socket hang up'));
-  });
+  // // Node itself hang up, no need tobe managed by this lib anymore
+  // it.skip('Request with a content lower than it`s contentLength', () => {
+  //   const content = 'aaa';
+  //   const middleware = uploaderExpress.middleware({ tmpDir, uploadDir });
+  //   const app = express();
+  //   app.post(URL, middleware, (req, res) => {
+  //     res.end();
+  //   });
+  //   setErrorHandler(app);
+  //   let agent = request.agent(app);
+  //   agent = agent.post(URL);
+  //   agent.set('Content-Length', content.length - 1);
+  //   return agent.send(content)
+  //     .then(() => Promise.reject('Should get an error'))
+  //     .catch(err => expect(err.message).to.be.deep.equal('socket hang up'));
+  // });
 });
