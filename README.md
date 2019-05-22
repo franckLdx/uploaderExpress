@@ -4,7 +4,7 @@ Write huge amount of data into a file.
 
 This aims to write a huge amount from an express request to a file. uploaderExpress uses streams and **never load the full amount of data into memory**.
 
-**_2.x requires Node v8 or later. For older Node release, you can use 1.x versions_**
+**_2.x and _3.x requires Node v8 or later. For older Node release, you can use 1.x versions_**
 
 #### Synopsys
 1. uploaderExpress check the content-length (if maxSize option is set, see bellow)
