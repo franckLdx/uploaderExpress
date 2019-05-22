@@ -7,14 +7,17 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 **2.x and 3.x requires Node v8 or later. For older Node release, you can use 1.x versions**
 
 #### Synopsys
-1. uploaderExpress check the content-length (if maxSize option is set, see bellow)
+1. Setup the middleware (most important: set a maxSize)
+2. When a request arrives, uploaderExpress check the content-length, if maxSize is exceeded, the request is rejected
 2. Creation of a temporary file
-3. Data are stored in this file
+3. Data are stored in this file. When data are comming, the uploaded size is contantly checked. if maxSize is exceeded, the request is rejected (even if in case of forged request, one cannot
+upload more than what is allowed by maxSize).
 4. Once all data are uploaded, the file is move to the upload directory (the upload directory is also an option, see below). An object (x-file) is added to the request so that you can process it.
 
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
+* **3.0.1** Update Readme
 * **3.0.0** update dependencies + some code refactoring + little intrface change: the upload method is not exported anymore
 * **2.0.1** update dependencies + some code refactoring.
 * **2.0.0** co library is not use anymore. All asynchronous operation uses async:await.
