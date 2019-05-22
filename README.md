@@ -15,6 +15,7 @@ This aims to write a huge amount from an express request to a file. uploaderExpr
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
+* **3.0.0** update dependencies + some code refactoring + little intrface change: the upload method is not exported anymore
 * **2.0.1** update dependencies + some code refactoring.
 * **2.0.0** co library is not use anymore. All asynchronous operation uses async:await.
 * **1.1.2** Add package-lock.json and update dependencies
