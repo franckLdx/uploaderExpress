@@ -87,12 +87,31 @@ Can be an integer or string:
 
   Optional. If not defined uploaderExpress accepts requests of any size.
 
-* **type**: type(extension) added to the file name.
+* **type**: type(extension) added to the file name (ignored if the `generateFileName` option is used)
 
   Optional. If not defined the file has no extension.
 
   !! type is only for adding an extension. No validation is performed on the file format.
 
+* **generateFileName**: Function that is used to generate a custom file name based on the incoming request. The `req` object is passed in as a parameter. E.g.:
+
+```js
+{
+  ...
+  generateFileName: req => `${req.params.caseId}.txt`
+  ...
+}
+```
+
+* **generateRelativePath**: Function that is used to generate the path of the file relative to the `tmpDir` parameter. The `req` object is passed in as a parameter. E.g.:
+
+```js
+{
+  ...
+  generateRelativePath: req => `${req.params.clientId}.txt`
+  ...
+}
+```
 ___
 #### 2. Middleware usage: success
 

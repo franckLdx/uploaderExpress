@@ -25,11 +25,19 @@ describe('Functional test', function () {
     });
   }
 
-  function testValidRequest({ middleware, content }) {
+  function testValidRequest({ middleware, content, fileName = '', parentDir = '' }) {
     const app = express();
     app.post(URL, middleware, (req, res) => {
       try {
         expect(req.x_file.size).to.be.deep.equal(content.length);
+        if (fileName) {
+          const pathSegments = req.x_file.name.split('/');
+          expect(pathSegments[pathSegments.length - 1]).to.be.equal(fileName);
+        }
+        if (parentDir) {
+          const pathSegments = req.x_file.name.split('/');
+          expect(pathSegments[pathSegments.length - 2]).to.be.equal(parentDir);
+        }
         res.end();
       } catch (err) {
         res.status(500).end(err.message);
@@ -92,6 +100,25 @@ describe('Functional test', function () {
     const content = 'aaa';
     const middleware = uploaderExpress.middleware({ maxSize: `${content.length}`, tmpDir, uploadDir });
     return testValidRequest({ middleware, content });
+  });
+
+  it('Request with a content and custom name and path', () => {
+    const content = 'aaa';
+    const middleware = uploaderExpress.middleware({
+      tmpDir,
+      uploadDir,
+      generateFileName: (req) => {
+        expect(req.path).to.be.equal('/');
+        return 'howdy';
+      },
+      generateRelativePath: (req) => {
+        expect(req.path).to.be.equal('/');
+        return 'hola';
+      },
+    });
+    return testValidRequest({
+      middleware, content, fileName: 'howdy', parentDir: 'hola'
+    });
   });
 
   it('Request with a content bigger than maxSize (maxSize is an integer)', () => {
