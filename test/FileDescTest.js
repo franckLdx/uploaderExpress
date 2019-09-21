@@ -34,6 +34,7 @@ describe('File desc tests', function () {
         const expectedPath = path.resolve(params.filePath, fileDesc.fileName);
         expect(fileDesc.fullPath).to.be.deep.equal(expectedPath);
         expect(fileDesc.expectedSize).to.be.deep.equal(params.req.get('content-length'));
+        return fileDesc;
       }
 
       it('All parameters are defined', function () {
@@ -62,6 +63,16 @@ describe('File desc tests', function () {
           filePath: 'foo',
         };
         return testValidInit(params);
+      });
+
+      it('Name is generated', async function () {
+        const params = {
+          req: getRequest(10),
+          filePath: 'foo',
+          generateFileName: () => 'howdy!',
+        };
+        const fileDesc = await testValidInit(params);
+        expect(fileDesc.fileName).to.be.equal('howdy!');
       });
     });
   });
