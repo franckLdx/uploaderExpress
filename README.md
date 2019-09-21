@@ -17,6 +17,10 @@ upload more than what is allowed by maxSize).
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
+* **3.1.0** Update Readme + update dep + 2 new functions from from Andrew Eisenberg: generateFileName and generateRelativePath
+* **3.0.3** Update Readme + fix from Andrew Eisenberg: req.x_file.name was always undefined
+* **3.0.2** Update Readme
+* **3.0.1** Update Readme
 * **3.0.1** Update Readme
 * **3.0.0** update dependencies + some code refactoring + little intrface change: the upload method is not exported anymore
 * **2.0.1** update dependencies + some code refactoring.
@@ -102,6 +106,9 @@ Can be an integer or string:
   ...
 }
 ```
+Overide is not supported. If a file with the name exist in the destination directory, this file is preserved and the upload failed.
+
+  Optional. If not provided, a random name is generated
 
 * **generateRelativePath**: Function that is used to generate the path of the file relative to the `tmpDir` parameter. The `req` object is passed in as a parameter. E.g.:
 
@@ -112,6 +119,8 @@ Can be an integer or string:
   ...
 }
 ```
+  Optional.
+
 ___
 #### 2. Middleware usage: success
 

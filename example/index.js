@@ -9,12 +9,8 @@ const uploaderMiddleware = uploaderExpress.middleware({
   maxSize: '1gb',
   uploadDir: './upload',
   type: 'json',
-  generateFileName: req => {
-    return req.params.name + Date.now() + '.txt';
-  },
-  generateRelativePath: req => {
-    return req.params.path;
-  },
+  generateFileName: req => `${req.params.name}${Date.now()}${'.txt'}`,
+  generateRelativePath: req => req.params.path,
 });
 
 app.post('/upload/:path/:name', uploaderMiddleware, (req, res, next) => {

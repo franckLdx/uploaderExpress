@@ -25,17 +25,19 @@ describe('Functional test', function () {
     });
   }
 
-  function testValidRequest({ middleware, content, fileName = '', parentDir = '' }) {
+  function testValidRequest({
+    middleware, content, fileName = '', parentDir = '',
+  }) {
     const app = express();
     app.post(URL, middleware, (req, res) => {
       try {
         expect(req.x_file.size).to.be.deep.equal(content.length);
         if (fileName) {
-          const pathSegments = req.x_file.name.split('/');
+          const pathSegments = req.x_file.name.split(path.sep);
           expect(pathSegments[pathSegments.length - 1]).to.be.equal(fileName);
         }
         if (parentDir) {
-          const pathSegments = req.x_file.name.split('/');
+          const pathSegments = req.x_file.name.split(path.sep);
           expect(pathSegments[pathSegments.length - 2]).to.be.equal(parentDir);
         }
         res.end();
@@ -117,7 +119,7 @@ describe('Functional test', function () {
       },
     });
     return testValidRequest({
-      middleware, content, fileName: 'howdy', parentDir: 'hola'
+      middleware, content, fileName: 'howdy', parentDir: 'hola',
     });
   });
 
