@@ -121,6 +121,7 @@ Overide is not supported. If a file with the name exist in the destination direc
 ```
   Optional.
 
+Be cautious when using data from the request. A hacker may try to upload a file anywhere on your disk using this. [Here is OSWAP recommendation](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
 ___
 #### 2. Middleware usage: success
 
