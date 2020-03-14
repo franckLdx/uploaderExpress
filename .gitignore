@@ -43,3 +43,5 @@ upload
 # test files
 *.nodeTest
 Z:
+
+.yarn

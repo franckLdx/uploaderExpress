@@ -135,6 +135,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime-corejs3@npm:^7.8.3":
+  version: 7.8.7
+  resolution: "@babel/runtime-corejs3@npm:7.8.7"
+  dependencies:
+    core-js-pure: ^3.0.0
+    regenerator-runtime: ^0.13.4
+  checksum: 2/071241602450036d016a47c1ccfe45ab06c456941b14ba3b16d772a362b88903266541d0d7cb9fc66e858e4fa235c538a28d0be0d63c7e67c160be4e0ad549a7
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.4.5":
   version: 7.5.5
   resolution: "@babel/runtime@npm:7.5.5"
@@ -304,24 +314,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/formatio@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@sinonjs/formatio@npm:4.0.1"
+"@sinonjs/fake-timers@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@sinonjs/fake-timers@npm:6.0.0"
   dependencies:
-    "@sinonjs/commons": ^1
-    "@sinonjs/samsam": ^4.2.0
-  checksum: 2/0172b81ff181f7b1d73d085714a4d8c54c6731fcaf7b0f7ad25ebebe28a9453f716274867213313ecea7d48c9445ef4cb39c06fb4a73c59a3251bcdae29fe92b
+    "@sinonjs/commons": ^1.7.0
+  checksum: 2/5dad4ac09e81720ce9743a43e4a6e26d991c02e808c95a3033ec1a8d2737083bc292cd129bd79dfd97862dc1ad27c679da302e6156da33ead230a2fcfd6d5b67
   languageName: node
   linkType: hard
 
-"@sinonjs/samsam@npm:^4.2.0, @sinonjs/samsam@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "@sinonjs/samsam@npm:4.2.2"
+"@sinonjs/formatio@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@sinonjs/formatio@npm:5.0.1"
+  dependencies:
+    "@sinonjs/commons": ^1
+    "@sinonjs/samsam": ^5.0.2
+  checksum: 2/88a5b635f8bf088a7610d92d242bea22b9f69fbbc8d3fdace1989995f7f78d463ef14ab834e549cee846b6d13c584496e53bbbde2ac711b0ccfee0a95440c5ae
+  languageName: node
+  linkType: hard
+
+"@sinonjs/samsam@npm:^5.0.2, @sinonjs/samsam@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "@sinonjs/samsam@npm:5.0.3"
   dependencies:
     "@sinonjs/commons": ^1.6.0
     lodash.get: ^4.4.2
     type-detect: ^4.0.8
-  checksum: 2/88361c979c3cb20b0cb8299b80a411608cb83bd998ff46176a415b4d22b4f9dd80147e4a1831e032a4c8f00739583ffd0638e0ed6537bc71f4dc73dadfef5e0b
+  checksum: 2/4d30cab4f82db7ef4b648d420f625bb5a9e260565ca604c86d9b9cbf3f358089b70d632343b1cb158de00198dbf4eaa21d832f30702a94de5c17e8f510af75ae
   languageName: node
   linkType: hard
 
@@ -959,7 +978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.1.0, chalk@npm:^2.4.2":
+"chalk@npm:^2.0.0, chalk@npm:^2.1.0, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -1184,7 +1203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"confusing-browser-globals@npm:^1.0.7":
+"confusing-browser-globals@npm:^1.0.9":
   version: 1.0.9
   resolution: "confusing-browser-globals@npm:1.0.9"
   checksum: 2/319e6d15384745d3ff4a5ca0357b687e0d36a1ab29a03084e192ea12802532de0fa7319169b09e971aba6a291f8a5ca333105e0fb239ed3f6c891f13eea2bea6
@@ -1255,6 +1274,13 @@ __metadata:
   version: 0.1.1
   resolution: "copy-descriptor@npm:0.1.1"
   checksum: 2/c052cf571ff6b69b604607a3d41f03cb742af9472026013e690ab33e1bef5e64930c53a5f881dc79c7e4f5ccc3cea0ebb9f420315d3690989329088976b68ee9
+  languageName: node
+  linkType: hard
+
+"core-js-pure@npm:^3.0.0":
+  version: 3.6.4
+  resolution: "core-js-pure@npm:3.6.4"
+  checksum: 2/23273f04eaa0dae33c9b9f07856c9b01a5dd00d4ef16d5e048eb403bf3a055f06c8a891ddaf0df4cacebaf0b398c958605ea294f47eb24d988a735656a4b11a0
   languageName: node
   linkType: hard
 
@@ -1661,34 +1687,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-airbnb-base@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "eslint-config-airbnb-base@npm:14.0.0"
+"eslint-config-airbnb-base@npm:^14.1.0":
+  version: 14.1.0
+  resolution: "eslint-config-airbnb-base@npm:14.1.0"
   dependencies:
-    confusing-browser-globals: ^1.0.7
+    confusing-browser-globals: ^1.0.9
     object.assign: ^4.1.0
-    object.entries: ^1.1.0
+    object.entries: ^1.1.1
   peerDependencies:
-    eslint: ^5.16.0 || ^6.1.0
-    eslint-plugin-import: ^2.18.2
-  checksum: 2/5f08678cc509dd0fcd48f95856e7874e00ce6a74577e3eadd2fd70ed5dd5bc4fab411fe371c22982ecfbfe57afe86549e4ba121d7db4b18427d8a28647d85695
+    eslint: ^5.16.0 || ^6.8.0
+    eslint-plugin-import: ^2.20.1
+  checksum: 2/d397634f4e9423d4a2cdc9eddfbe0da59502be1129f1f0701be380e23f68348530c12eb10c18b63d57c44af19bf2ccc12d0e8ea2bad215282b98a380f4ea2a2f
   languageName: node
   linkType: hard
 
-"eslint-config-airbnb@npm:^18.0.1":
-  version: 18.0.1
-  resolution: "eslint-config-airbnb@npm:18.0.1"
+"eslint-config-airbnb@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "eslint-config-airbnb@npm:18.1.0"
   dependencies:
-    eslint-config-airbnb-base: ^14.0.0
+    eslint-config-airbnb-base: ^14.1.0
     object.assign: ^4.1.0
-    object.entries: ^1.1.0
+    object.entries: ^1.1.1
   peerDependencies:
-    eslint: ^5.16.0 || ^6.1.0
-    eslint-plugin-import: ^2.18.2
+    eslint: ^5.16.0 || ^6.8.0
+    eslint-plugin-import: ^2.20.1
     eslint-plugin-jsx-a11y: ^6.2.3
-    eslint-plugin-react: ^7.14.3
-    eslint-plugin-react-hooks: ^1.7.0
-  checksum: 2/ab20b863b07aeb2c5dfb374c649405b0dabd624ecd6bc6dbd3aa3aae3d3888701258f8ad7e80dade7b308499334ee03546cf2d5cee3694a03bc65fcc10ff3d60
+    eslint-plugin-react: ^7.19.0
+    eslint-plugin-react-hooks: ^2.5.0 || ^1.7.0
+  checksum: 2/229f67ab3a5007be7e7431add143f68e7a6b145f330542c2632ed6f11ce4a43d6cee31d7069817ef88a56e18bfc18eae2e62719c6b25cae0ed7b4bd8a4c67cb2
   languageName: node
   linkType: hard
 
@@ -1781,9 +1807,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.18.3":
-  version: 7.18.3
-  resolution: "eslint-plugin-react@npm:7.18.3"
+"eslint-plugin-react-hooks@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "eslint-plugin-react-hooks@npm:2.5.0"
+  peerDependencies:
+    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+  checksum: 2/fa40ca7982e9c203b545c7f5794090a2ff93f4043da7c7149dc832df34c8a80cf92c21bd320d8fa1ea6495fa8e8cf4eb3a6ef38b2f735f9820ce33e36496d038
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-react@npm:^7.19.0":
+  version: 7.19.0
+  resolution: "eslint-plugin-react@npm:7.19.0"
   dependencies:
     array-includes: ^3.1.1
     doctrine: ^2.1.0
@@ -1793,11 +1828,13 @@ __metadata:
     object.fromentries: ^2.0.2
     object.values: ^1.1.1
     prop-types: ^15.7.2
-    resolve: ^1.14.2
+    resolve: ^1.15.1
+    semver: ^6.3.0
     string.prototype.matchall: ^4.0.2
+    xregexp: ^4.3.0
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
-  checksum: 2/7d775db2d6640b5b593e581fdbb10c357d27258cda50451370b0dc5f43056e1e64bb9022ae6f19d97eec5eae1a85b491c1456886b6829d6066e01fb9e31ffb11
+  checksum: 2/3e5b7bd3b2ea663716fd2518efd1eed359712711a3c0284ed04e5955e6b7019151d8b54dddad2a9116a54e251dd180bf5ba0ccf34a80ffbe8f4d535a0d03e6b3
   languageName: node
   linkType: hard
 
@@ -3619,21 +3656,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"log-symbols@npm:2.2.0":
-  version: 2.2.0
-  resolution: "log-symbols@npm:2.2.0"
+"log-symbols@npm:3.0.0":
+  version: 3.0.0
+  resolution: "log-symbols@npm:3.0.0"
   dependencies:
-    chalk: ^2.0.1
-  checksum: 2/e2dfd255f3e3080134055597fb67bd67798d65383488683ed90f0376f7264dd21028f30d4c3a0686251dcfc4dc71172e8061cef21e89c6deabb8b375450d5166
-  languageName: node
-  linkType: hard
-
-"lolex@npm:^5.0.1, lolex@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "lolex@npm:5.1.2"
-  dependencies:
-    "@sinonjs/commons": ^1.7.0
-  checksum: 2/129eb19d11bd1557fdee931f064e7ea0f1a23e9b33eaea37179f32074718b496e2b5855461d3364a65ddd113dc92a065957b957281bb5fe9caf3291a9f4db02e
+    chalk: ^2.4.2
+  checksum: 2/bfa7cceaea16d7e378b4f6a16e22c5c78bc4250350a84d653766927bdf27e5b94015f616e193bc275e80d13f882867ddf224a3c6c152e24289ed5e58d84d306e
   languageName: node
   linkType: hard
 
@@ -3843,9 +3871,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mocha@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "mocha@npm:7.0.1"
+"mocha@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "mocha@npm:7.1.0"
   dependencies:
     ansi-colors: 3.2.3
     browser-stdout: 1.3.1
@@ -3858,7 +3886,7 @@ __metadata:
     growl: 1.10.5
     he: 1.2.0
     js-yaml: 3.13.1
-    log-symbols: 2.2.0
+    log-symbols: 3.0.0
     minimatch: 3.0.4
     mkdirp: 0.5.1
     ms: 2.1.1
@@ -3874,7 +3902,7 @@ __metadata:
   bin:
     _mocha: bin/_mocha
     mocha: bin/mocha
-  checksum: 2/edaa192c219f3003643e875539b2fe5a8a122736cf4e2174c7d53bce7943d336930b4d581490a07c389eb5656ed04b160e92f3362896b96049c8ab412a4cf1e8
+  checksum: 2/4035b730f3c69018880584970b7b84b515c3d4cda5bebd3b46422d245fde96d5cf23c9764a8b945726a7296b55fcd4400bcc123332d1d11c9fdb5d6a44df7362
   languageName: node
   linkType: hard
 
@@ -3964,17 +3992,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nise@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "nise@npm:3.0.1"
+"nise@npm:^4.0.1":
+  version: 4.0.3
+  resolution: "nise@npm:4.0.3"
   dependencies:
     "@sinonjs/commons": ^1.7.0
-    "@sinonjs/formatio": ^4.0.1
+    "@sinonjs/fake-timers": ^6.0.0
     "@sinonjs/text-encoding": ^0.7.1
     just-extend: ^4.0.2
-    lolex: ^5.0.1
     path-to-regexp: ^1.7.0
-  checksum: 2/72b884ac8061f218f3fea5428a113952e16a2d0d7d5616e363589b1b6fd20508cf93f21a3d9465d983a929e922f2096e0e994f129d97779896f02327582c8858
+  checksum: 2/96de87f9998f990b6b7d1ff013f9538624f226d4a054a25bf0bad8b9143cb9ea5ebb6b8c3ab3d8c29d2b2b29da79418f90d97d568b9b387c42da78410dfb34ff
   languageName: node
   linkType: hard
 
@@ -4023,7 +4050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-preload@npm:^0.2.0":
+"node-preload@npm:^0.2.0, node-preload@npm:^0.2.1":
   version: 0.2.1
   resolution: "node-preload@npm:0.2.1"
   dependencies:
@@ -4213,18 +4240,6 @@ __metadata:
     has-symbols: ^1.0.0
     object-keys: ^1.0.11
   checksum: 2/92e20891ddf04d9974f7b178ae70d198727dcd638c8a5a422f07f730f40140c4fe02451cdc9c37e9f22392e5487b9162975003a9f20b16a87b9d13fe150cf62d
-  languageName: node
-  linkType: hard
-
-"object.entries@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "object.entries@npm:1.1.0"
-  dependencies:
-    define-properties: ^1.1.3
-    es-abstract: ^1.12.0
-    function-bind: ^1.1.1
-    has: ^1.0.3
-  checksum: 2/8f2bf2940c381b45be713582156599b8df769e3b6169ab564026c51d5f50c1285419b2e52504dd7c7615c16fce20258546dc616e06beaef5ed62ea09542a492c
   languageName: node
   linkType: hard
 
@@ -4846,6 +4861,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regenerator-runtime@npm:^0.13.4":
+  version: 0.13.5
+  resolution: "regenerator-runtime@npm:0.13.5"
+  checksum: 2/8d8ee0eca26e0491085033caf2b1b95379c4db21e38d79cde52bbd4014a3865eee26ec0f4f958682e8600f185f2f5dbcd8c6685b9b9261639767929c19b5bcd2
+  languageName: node
+  linkType: hard
+
 "regex-not@npm:^1.0.0, regex-not@npm:^1.0.2":
   version: 1.0.2
   resolution: "regex-not@npm:1.0.2"
@@ -4989,7 +5011,7 @@ resolve@1.1.x:
   languageName: node
   linkType: hard
 
-"resolve@^1.12.0, resolve@^1.14.2":
+"resolve@^1.12.0, resolve@^1.15.1":
   version: 1.15.1
   resolution: "resolve@npm:1.15.1"
   dependencies:
@@ -5014,7 +5036,7 @@ resolve@1.1.x:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.12.0#builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.12.0#builtin<compat/resolve>, resolve@patch:resolve@^1.15.1#builtin<compat/resolve>":
   version: 1.15.1
   resolution: "resolve@patch:resolve@npm%3A1.15.1#builtin<compat/resolve>::version=1.15.1&hash=8fccd0"
   dependencies:
@@ -5255,18 +5277,18 @@ resolve@1.1.x:
   languageName: node
   linkType: hard
 
-"sinon@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "sinon@npm:8.1.1"
+"sinon@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "sinon@npm:9.0.1"
   dependencies:
     "@sinonjs/commons": ^1.7.0
-    "@sinonjs/formatio": ^4.0.1
-    "@sinonjs/samsam": ^4.2.2
+    "@sinonjs/fake-timers": ^6.0.0
+    "@sinonjs/formatio": ^5.0.1
+    "@sinonjs/samsam": ^5.0.3
     diff: ^4.0.2
-    lolex: ^5.1.2
-    nise: ^3.0.1
+    nise: ^4.0.1
     supports-color: ^7.1.0
-  checksum: 2/3eaa5d512ec989483154d7b6fd3a935306941579d9f854cd770c49d42abe0112ef935dd6edc7c1fba999f63927a676c5c50b2eca96dd5d33a83cdae98ec0e474
+  checksum: 2/8fbfe4166b8a78207df2a5acbba1d4ac121aaca49b4e78cef892dcd0a09927e93497ac5ca0118c08718f3260ef72cc5d1b6fe97723cbfcaaff8469f85a09628a
   languageName: node
   linkType: hard
 
@@ -5987,19 +6009,21 @@ resolve@1.1.x:
     bytes: ^3.1.0
     chai: ^4.2.0
     eslint: ^6.8.0
-    eslint-config-airbnb: ^18.0.1
+    eslint-config-airbnb: ^18.1.0
     eslint-plugin-import: ^2.20.1
     eslint-plugin-jsx-a11y: ^6.2.3
     eslint-plugin-node: ^11.0.0
-    eslint-plugin-react: ^7.18.3
+    eslint-plugin-react: ^7.19.0
+    eslint-plugin-react-hooks: ^2.5.0
     expect: ^25.1.0
     express: ^4.17.1
     fs-extra: ^8.1.0
     istanbul: ^0.4.5
-    mocha: ^7.0.1
+    mocha: ^7.1.0
     mz: ^2.7.0
+    node-preload: ^0.2.1
     nyc: ^15.0.0
-    sinon: ^8.1.1
+    sinon: ^9.0.1
     supertest: ^4.0.2
   languageName: unknown
   linkType: soft
@@ -6212,6 +6236,15 @@ resolve@1.1.x:
   dependencies:
     mkdirp: ^0.5.1
   checksum: 2/e8f8fddefea3eaaf4c8bacf072161f82d5e05c5fb8f003e1bae52673b94b88a4954d97688c7403a20301d2f6e9f61363b1affe74286b499b39bc0c42f17a56cb
+  languageName: node
+  linkType: hard
+
+"xregexp@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "xregexp@npm:4.3.0"
+  dependencies:
+    "@babel/runtime-corejs3": ^7.8.3
+  checksum: 2/2dcef4888ea32e7c01b8f42d1ee3df24970de14b299a8f534ccecf2252d297092f92d037502176ec334b6c8d7cd1dd3dba0d3cf949e26f418d50b46846268839
   languageName: node
   linkType: hard
 
