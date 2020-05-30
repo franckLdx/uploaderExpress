@@ -1,6 +1,6 @@
 {
   "name": "uploaderexpress",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Write huge amount of data into a file",
   "main": "index.js",
   "files": [
