@@ -7,9 +7,26 @@
     "node": true,
     "mocha": true
   },
+  "plugins": [
+    "react-hooks"
+  ],
   "rules": {
-    "no-bitwise": ["error", { "allow": ["|"] }],
+    "no-bitwise": [
+      "error",
+      {
+        "allow": [
+          "|"
+        ]
+      }
+    ],
     "no-underscore-dangle": "off",
-    "strict": "off"
+    "strict": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "useRecoilCallback"
+      }
+    ]
   }
 }
