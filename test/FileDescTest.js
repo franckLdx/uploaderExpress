@@ -208,17 +208,17 @@ describe('File desc tests', function () {
       expect(newFileDesc.fullPath).to.be.deep.equal(path.resolve(destDir, newFileDesc.fileName));
     });
 
-    it.skip('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
-      const { fullPath } = fileDesc;
-      return file.move('Z:/test/foo', fileDesc)
-        .then(() => Promise.reject('An error shoud have been thrown'))
-        .catch(() => {
-          expect(fileDesc.fullPath).to.be.deep.equal(fullPath);
-          if (!isFileExist(fileDesc.fullPath)) {
-            throw new Error('File has been moved !!!');
-          }
-        });
-    });
+    // it.skip('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
+    //   const { fullPath } = fileDesc;
+    //   return file.move('Z:/test/foo', fileDesc)
+    //     .then(() => Promise.reject('An error shoud have been thrown'))
+    //     .catch(() => {
+    //       expect(fileDesc.fullPath).to.be.deep.equal(fullPath);
+    //       if (!isFileExist(fileDesc.fullPath)) {
+    //         throw new Error('File has been moved !!!');
+    //       }
+    //     });
+    // });
 
     it('Move a non existing file, should failed', function () {
       const { fullPath } = fileDesc;
