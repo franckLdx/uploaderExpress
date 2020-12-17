@@ -208,7 +208,7 @@ describe('File desc tests', function () {
       expect(newFileDesc.fullPath).to.be.deep.equal(path.resolve(destDir, newFileDesc.fileName));
     });
 
-    it('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
+    it.skip('Move to an non existing directory: should failed, fileDesc data should be unchanged', function () {
       const { fullPath } = fileDesc;
       return file.move('Z:/test/foo', fileDesc)
         .then(() => Promise.reject('An error shoud have been thrown'))
