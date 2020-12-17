@@ -10,7 +10,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha",
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
     "lint": "eslint *.js index.js lib/**/*.js test/**/*.js example/**/*.js"
   },
   "repository": {
