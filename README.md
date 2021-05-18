@@ -4,6 +4,7 @@ Write huge amount of data into a file.
 
 This aims to write a huge amount from an express request to a file. uploaderExpress uses streams and **never load the full amount of data into memory**.
 
+**4.x requires Node v12 or later. For older Node release**
 **2.x and 3.x requires Node v8 or later. For older Node release, you can use 1.x versions**
 
 #### Synopsys
@@ -17,6 +18,7 @@ upload more than what is allowed by maxSize).
 In case of error the temporary file is deleted and nothing is copied in the upload dir.
 
 #### What's new
+* **4.0.0** Update Readme + update deps, Node 10 is not supported anymore
 * **3.1.0** Update Readme + update dep + 2 new functions from from Andrew Eisenberg: generateFileName and generateRelativePath
 * **3.0.3** Update Readme + fix from Andrew Eisenberg: req.x_file.name was always undefined
 * **3.0.2** Update Readme
