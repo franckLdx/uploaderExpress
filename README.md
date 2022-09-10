@@ -20,6 +20,8 @@ In case of error the temporary file is deleted and nothing is copied in the uplo
 
 #### What's new
 
+- **4.1.0** Update Readme + update deps + Node 17 is supported
+- **4.0.2** Update Readme + update deps
 - **4.0.1** Update Readme + update deps, Node 16 is now supported
 - **4.0.0** Update Readme + update deps, Node 10 is not supported anymore
 - **3.1.0** Update Readme + update dep + 2 new functions from from Andrew Eisenberg: generateFileName and generateRelativePath
